@@ -1,7 +1,5 @@
 import argparse
-#import numpy as np
-import ctFunctions as fn
-#import sandbox as fn
+import approximations as apx
 
 parser = argparse.ArgumentParser(description='''Insert Decription Here''')
 parser.add_argument('filename', help='name of .txt file containing input data')
@@ -10,27 +8,28 @@ args = parser.parse_args()
 infile = args.filename
 
 #cores = fn.loadData(infile)
-cores = fn.testerData()
+cores = apx.testerData()
+cores2 = apx.testerData2()
 
-#x = [time for time in cores[0]]
-#y = [cores[0][time] for time in cores[0]]
-#n = 2
-#
-#A = np.array([fn.makeRow(i, x) for i in range(0, n)])
-#b = np.array([fn.makeRowinb(i, x, y) for i in range(0, n)])
-#
-#print(x)
-#print(y)
-##
-##print(A)
-##print("----------")
-##print(b)
-#
-#c = np.linalg.lstsq(A, b, rcond=None)
-#
-#c0, c1 = (c[0])
-#
 #print("p = %.1f + %.1fx" % (c0, c1))
 #print("p = %f + %fx" % (c0, c1))
 
-print(cores[0])
+c = apx.leastSquares(cores[0])
+print("p = %.1f + %.1fx" % (c[0], c[1]))
+print("\n")
+
+coef = apx.linear(cores[0])
+i = 0
+for c in coef:
+    print("P%s(x) = %.1f + %.1fx" % (i, c[0], c[1]))
+    i += 1
+print("\n")
+
+coef = apx.cubicSpline(cores2[0])
+i = 0
+for c in coef:
+    print("S%s(x) = %.3f + %.3f(x-?) + %.3f(x-?)^2 + %.3f(x-?)^3" % (i, c[0], c[1], c[2], c[3]))
+    i += 1
+print("\n")
+
+
